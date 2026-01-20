@@ -48,5 +48,5 @@ extend-select = ["UP"]
 ignore = ["F722"]
 
 [tool.basedpyright]
-reportUnknownVariableType = false
-reportUnknownArgumentType = false
+reportMissingTypeStubs = false
+reportUnknownMemberType = false
