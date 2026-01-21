@@ -2,9 +2,7 @@ from pathlib import Path
 
 import fasttext
 
-
-def replace_whitespaces(text: str, rep: str = " "):
-    return rep.join(text.split())
+from cs336_data.utils import replace_whitespaces
 
 
 def remove_label_prefix(label: str):
