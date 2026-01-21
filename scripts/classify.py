@@ -11,20 +11,7 @@ def main():
     nsfw_model = load_model(nsfw_model_path())
     toxic_model = load_model(hatespeech_model_path())
 
-    n_samples = 20
-    template = """\
-# Record/Line {i}/{j}
-
-## Line
-
-{raw}
-
-## Labels & Scores
-
-1. {nsfw_lb}={nsfw_score}
-2. {toxic_lb}={toxic_score}
-
-"""
+    n_samples = 32
 
     output_buffer = {"nsfw": [], "toxic": []}  # pyright: ignore[reportUnknownVariableType]
 
