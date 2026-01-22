@@ -3,46 +3,40 @@ from __future__ import annotations
 import os
 from typing import Any
 
+from cs336_data.assets import assets
+from cs336_data.classify import classify_nsfw, classify_toxic_speech
+from cs336_data.extract import extract_text_from_html_bytes
+from cs336_data.fasttext_model import FastTextModel
+from cs336_data.identify import identify_language
+from cs336_data.maskpii import mask_emails, mask_ipv4s, mask_phone_numbers
+
 
 def run_extract_text_from_html_bytes(html_bytes: bytes) -> str | None:
-    from cs336_data.extract import extract_text_from_html_bytes
-
     return extract_text_from_html_bytes(html_bytes)
 
 
-def run_identify_language(text: str) -> tuple[Any, float]:
-    from cs336_data.identify import identify_language
-
-    return identify_language(text)
+def run_identify_language(text: str) -> tuple[str, float]:
+    model = FastTextModel(assets.get_language_classifier_path().as_posix())
+    return identify_language(text, model)
 
 
 def run_mask_emails(text: str) -> tuple[str, int]:
-    from cs336_data.maskpii import mask_emails
-
     return mask_emails(text)
 
 
 def run_mask_phone_numbers(text: str) -> tuple[str, int]:
-    from cs336_data.maskpii import mask_phone_numbers
-
     return mask_phone_numbers(text)
 
 
 def run_mask_ips(text: str) -> tuple[str, int]:
-    from cs336_data.maskpii import mask_ipv4s
-
     return mask_ipv4s(text)
 
 
 def run_classify_nsfw(text: str) -> tuple[Any, float]:
-    from cs336_data.classify import classify_nsfw
-
     return classify_nsfw(text)
 
 
 def run_classify_toxic_speech(text: str) -> tuple[Any, float]:
-    from cs336_data.classify import classify_toxic_speech
-
     return classify_toxic_speech(text)
 
 

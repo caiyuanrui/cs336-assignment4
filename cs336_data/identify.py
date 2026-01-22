@@ -1,25 +1,16 @@
-from pathlib import Path
-
-import fasttext
-
-from cs336_data.utils import replace_whitespaces
+from cs336_data.assets import assets
+from cs336_data.fasttext_model import FastTextModel
 
 
-def remove_label_prefix(label: str):
-    assert label[:9] == "__label__"
-    return label[9:]
+def identify_language(text: str, model: FastTextModel | None = None) -> tuple[str, float]:
+    if model is None:
+        model = FastTextModel(assets.get_language_classifier_path().as_posix())
+    text = text.replace("\n", " ")
+    label, score = model.predict(text)
+    return label, score
 
 
-def identify_language(text: str) -> tuple[str, float]:
-    root_dir = Path(__file__).parent.parent
-    model_path = root_dir.joinpath("data/lid.176.bin")
-
-    model = fasttext.load_model(model_path.as_posix())
-
-    text = replace_whitespaces(text)
-    labels, probs = model.predict(text)  # noqa: F841  # pyright: ignore[reportUnknownVariableType]
-
-    label: str = remove_label_prefix(labels[0])  # pyright: ignore[reportGeneralTypeIssues, reportUnknownArgumentType]
-    prob: float = probs.item()  # pyright: ignore[reportUnknownVariableType]
-
-    return label, prob  # pyright: ignore[reportUnknownVariableType]
+if __name__ == "__main__":
+    model = FastTextModel(assets.get_language_classifier_path().as_posix())
+    print(identify_language("These models were trained on UTF-8 data, and therefore expect UTF-8 as input.", model))
+    print(identify_language("这些模型是在 UTF-8 数据上训练的，因此期望输入为 UTF-8 格式。", model))

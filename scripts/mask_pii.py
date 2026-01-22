@@ -1,16 +1,11 @@
-from pathlib import Path
-
 from fastwarc.warc import ArchiveIterator, WarcRecordType
 
+from cs336_data.assets import assets
 from cs336_data.extract import extract_text_from_html_bytes
 from cs336_data.maskpii import mask_emails, mask_ipv4s, mask_phone_numbers
-from cs336_data.utils import project_root
 
 
 def main():
-    root_dir = Path(project_root())
-    warc_path = root_dir.joinpath("data/CC-MAIN-20250417135010-20250417165010-00065.warc.gz")
-
     max_records = 32
     template = """\
 # Record {i}
@@ -25,7 +20,7 @@ def main():
 
 """
 
-    with open(warc_path, "rb") as f:
+    with open(assets.get_warc_path(), "rb") as f:
         for i, record in enumerate(ArchiveIterator(f, record_types=WarcRecordType.response)):
             html_bytes = record.reader.read()
             content = extract_text_from_html_bytes(html_bytes)

@@ -1,21 +1,21 @@
 from fastwarc import ArchiveIterator
 from fastwarc.warc import WarcRecordType
-from fasttext import load_model  # pyright: ignore[reportUnknownVariableType]
 
+from cs336_data.assets import assets
 from cs336_data.classify import classify_nsfw, classify_toxic_speech
 from cs336_data.extract import extract_text_from_html_bytes
-from cs336_data.utils import nsfw_model_path, warc_sample_path, hatespeech_model_path
+from cs336_data.fasttext_model import FastTextModel
 
 
 def main():
-    nsfw_model = load_model(nsfw_model_path())
-    toxic_model = load_model(hatespeech_model_path())
+    nsfw_model = FastTextModel(assets.get_nsfw_model_path().as_posix())
+    toxic_model = FastTextModel(assets.get_toxic_model_path().as_posix())
 
-    n_samples = 32
+    n_samples = 8
 
     output_buffer = {"nsfw": [], "toxic": []}  # pyright: ignore[reportUnknownVariableType]
 
-    with open(warc_sample_path(), "rb") as f:
+    with open(assets.get_warc_path(), "rb") as f:
         for record in ArchiveIterator(f, record_types=WarcRecordType.response):
             html_bytes = record.reader.read()
 
