@@ -9,7 +9,7 @@ from cs336_data.extract import extract_text_from_html_bytes
 from cs336_data.fasttext_model import FastTextModel
 from cs336_data.identify import identify_language
 from cs336_data.maskpii import mask_emails, mask_ipv4s, mask_phone_numbers
-from cs336_data.qualify import gopher_quality_filter
+from cs336_data.qualify import classify_quality, gopher_quality_filter
 
 
 def run_extract_text_from_html_bytes(html_bytes: bytes) -> str | None:
@@ -41,8 +41,8 @@ def run_classify_toxic_speech(text: str) -> tuple[Any, float]:
     return classify_toxic_speech(text)
 
 
-def run_classify_quality(text: str) -> tuple[Any, float]:
-    raise NotImplementedError
+def run_classify_quality(text: str) -> tuple[str, float]:
+    return classify_quality(text)
 
 
 def run_gopher_quality_filter(text: str) -> bool:

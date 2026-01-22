@@ -1,6 +1,11 @@
 import os
 from pathlib import Path
 
+import fasttext
+from huggingface_hub import hf_hub_download  # pyright: ignore[reportUnknownVariableType]
+
+from cs336_data.fasttext_model import FastTextModel
+
 
 class AssetManager:
     def __init__(self):
@@ -59,6 +64,13 @@ class AssetManager:
             print(f"⚠️ Warning: cannot find the wet file: {path}")
             print(f"CUrrent Base Dir: {self.base_dir}")
         return path
+
+    def get_quality_classifier(self):
+        return FastTextModel(
+            model=fasttext.load_model(
+                hf_hub_download("kenhktsui/llm-data-textbook-quality-fasttext-classifier-v2", "model_quantized.bin")
+            )
+        )
 
 
 assets = AssetManager()

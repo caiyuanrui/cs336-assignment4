@@ -167,3 +167,8 @@ cython_debug/
 #.idea/
 
 assets
+
+
+# Added by cargo
+
+/target

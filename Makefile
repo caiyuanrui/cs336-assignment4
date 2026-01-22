@@ -7,3 +7,4 @@ test:
 	uv run pytest -k test_classify_nsfw
 	uv run pytest -k test_classify_toxic_speech
 	uv run pytest -k test_gopher
+	uv run pytest -k test_classify_quality
