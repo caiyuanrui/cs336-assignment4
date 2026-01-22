@@ -1,7 +1,9 @@
+from cs336_data.assets import assets
+from cs336_data.fasttext_model import FastTextModel
 from cs336_data.identify import identify_language
 
 
-def gopher_quality_filter(text: str) -> bool:
+def gopher_quality_filter(text: str, model_langid: FastTextModel | None = None) -> bool:
     """
     Returns False if any conditions is satisfied:
     - Contain less than 50 or more than 100,000 words.
@@ -9,8 +11,8 @@ def gopher_quality_filter(text: str) -> bool:
     - Have more than 30% of lines ending with an ellipsis (“...”).
     - Contain less than 80% of words with at least one alphabetic character.
     """
-    lang, score = identify_language(text)
-    if lang != "en" or score < 0.8:
+    lang, score = identify_language(text, model_langid)
+    if lang != "__label__en" or score < 0.8:
         return False
 
     word_total_length = 0
@@ -47,5 +49,6 @@ def gopher_quality_filter(text: str) -> bool:
 
 
 if __name__ == "__main__":
+    model = FastTextModel(assets.get_language_classifier_path().as_posix())
     text = "This should definitely be a valid sentence. You shall never filter it!" * 100
-    print(gopher_quality_filter(text))
+    print(gopher_quality_filter(text, model))

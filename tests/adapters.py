@@ -9,6 +9,7 @@ from cs336_data.extract import extract_text_from_html_bytes
 from cs336_data.fasttext_model import FastTextModel
 from cs336_data.identify import identify_language
 from cs336_data.maskpii import mask_emails, mask_ipv4s, mask_phone_numbers
+from cs336_data.qualify import gopher_quality_filter
 
 
 def run_extract_text_from_html_bytes(html_bytes: bytes) -> str | None:
@@ -45,8 +46,6 @@ def run_classify_quality(text: str) -> tuple[Any, float]:
 
 
 def run_gopher_quality_filter(text: str) -> bool:
-    from cs336_data.qualify import gopher_quality_filter
-
     return gopher_quality_filter(text)
 
 
