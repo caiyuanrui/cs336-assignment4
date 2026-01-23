@@ -6,9 +6,18 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0.100"
 chrono = "0.4.43"
+flate2 = "1.1.8"
+html2text = "0.16.6"
 itertools = "0.14.0"
 reqwest = "0.13.1"
 tokio = { version = "1.49.0", features = ["full"] }
 tqdm = "0.8.0"
 uuid = { version = "1.19.0", features = ["v4"] }
 warc = "0.4.0"
+xxhash-rust = { version = "0.8.15", features = ["xxh3"] }
+
+[[main]]
+name = "url2warc"
+
+[[main]]
+name = "dedup_line"

@@ -48,6 +48,8 @@ async fn main() -> Result<()> {
         tokio::spawn(fetch_urls(urls_file, s, e, tx.clone()));
     }
 
+    drop(tx);
+
     let pb = tqdm::pbar(Some(linebreaks_count));
     let writer = BufWriter::new(File::create(output_warc).await?);
     reduce_warc(writer, rx, Some(pb)).await?;

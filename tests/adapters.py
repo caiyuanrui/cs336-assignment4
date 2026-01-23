@@ -5,6 +5,7 @@ from typing import Any
 
 from cs336_data.assets import assets
 from cs336_data.classify import classify_nsfw, classify_toxic_speech
+from cs336_data.dedup_lines import exact_line_deduplication
 from cs336_data.extract import extract_text_from_html_bytes
 from cs336_data.fasttext_model import FastTextModel
 from cs336_data.identify import identify_language
@@ -49,16 +50,16 @@ def run_gopher_quality_filter(text: str) -> bool:
     return gopher_quality_filter(text)
 
 
-def run_exact_line_deduplication(input_files: list[os.PathLike], output_directory: os.PathLike):
-    raise NotImplementedError
+def run_exact_line_deduplication(input_files: list[os.PathLike[str]], output_directory: os.PathLike[str]):
+    return exact_line_deduplication(input_files, output_directory)
 
 
 def run_minhash_deduplication(
-    input_files: list[os.PathLike],
+    input_files: list[os.PathLike[str]],
     num_hashes: int,
     num_bands: int,
     ngrams: int,
     jaccard_threshold: float,
-    output_directory: os.PathLike,
+    output_directory: os.PathLike[str],
 ):
     raise NotImplementedError
